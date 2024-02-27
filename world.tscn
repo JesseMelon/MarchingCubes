@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b21aox1acjnnc"]
+
+[ext_resource type="Script" path="res://Terrain.cs" id="1_ms5ku"]
+[ext_resource type="Material" uid="uid://bowrvhwu5ni14" path="res://floorMat.tres" id="2_ihykt"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pepkh"]
+
+[node name="World" type="Node3D"]
+
+[node name="Terrain" type="StaticBody3D" parent="."]
+script = ExtResource("1_ms5ku")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.903253, 0.429109, 0, -0.429109, 0.903253, 0, 2.31665, 3.61665)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.414566, 0.910019, 0, -0.910019, 0.414566, 0, 0, 0)
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0749829, 0)
+mesh = SubResource("PlaneMesh_pepkh")
+surface_material_override/0 = ExtResource("2_ihykt")
