@@ -1,20 +1,39 @@
-[gd_scene load_steps=4 format=3 uid="uid://b21aox1acjnnc"]
+[gd_scene load_steps=8 format=3 uid="uid://b21aox1acjnnc"]
 
 [ext_resource type="Script" path="res://Terrain.cs" id="1_ms5ku"]
 [ext_resource type="Material" uid="uid://bowrvhwu5ni14" path="res://floorMat.tres" id="2_ihykt"]
+[ext_resource type="Script" path="res://addons/camera.gd" id="2_jo3bp"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_n0lup"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_8f6k1"]
+sky_material = SubResource("ProceduralSkyMaterial_n0lup")
+
+[sub_resource type="Environment" id="Environment_kg27b"]
+background_mode = 2
+sky = SubResource("Sky_8f6k1")
+ambient_light_color = Color(0.545098, 0.545098, 0.545098, 1)
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_pepkh"]
 
 [node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.598382, 0.068631, -0.798266, 0.210271, -0.947949, -0.23912, -0.773127, -0.310937, 0.552805, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kg27b")
 
 [node name="Terrain" type="StaticBody3D" parent="."]
 script = ExtResource("1_ms5ku")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.903253, 0.429109, 0, -0.429109, 0.903253, 0, 2.31665, 3.61665)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.414566, 0.910019, 0, -0.910019, 0.414566, 0, 0, 0)
+script = ExtResource("2_jo3bp")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0749829, 0)

@@ -2,41 +2,59 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+[Tool]
 public partial class Terrain : StaticBody3D
 {
-        /*Godot mesh gen gameplan.
-        declare a surface tool, and lists for mesh info. verts, uvs, normals, and indices as needed.
-        declare a surface array to pull all the data arrays into one object. this must be the godot.collections.array type
-        on ready, addChild meshInstance3d node to hold our finished mesh
-        resize the godot.collections.array suraceArray to (int)Mesh.ArrayType.Max. This just sets the length to that of an arraymesh
-        add to lists as needed, they are variable length
-        when done editing lists, convert to arrays and feed them to surfaceArray
-        feed surfaceArray to surfaceTool to get an arrayMesh
-        use the arraymesh to set the mesh property of the meshInstance3d.
-        you should now have a rendered procedural mesh
+    /*Godot mesh gen gameplan.
+    declare a surface tool, and lists for mesh info. verts, uvs, normals, and indices as needed.
+    declare a surface array to pull all the data arrays into one object. this must be the godot.collections.array type
+    on ready, addChild meshInstance3d node to hold our finished mesh
+    resize the godot.collections.array suraceArray to (int)Mesh.ArrayType.Max. This just sets the length to that of an arraymesh
+    add to lists as needed, they are variable length
+    when done editing lists, convert to arrays and feed them to surfaceArray
+    feed surfaceArray to surfaceTool to get an arrayMesh
+    use the arraymesh to set the mesh property of the meshInstance3d.
+    you should now have a rendered procedural mesh
 
 
-        */
+    */
+
+    FastNoiseLite fastNoise = new();
+
+    SurfaceTool surfaceTool = new();  //surface tool allows building meshes throughout script
+    Godot.Collections.Array surfaceArray = new(); //surface array is fed to surface tool after being loaded with individual arrays
+
+    List<Vector3> vertices = new();     //these are the arrays modified with mesh data and passed to surfaceArray for rendering
+    //List<Vector2> uvs = new();
+    //List<Vector3> normals = new();
+    List<int> indices = new();
+
+    MeshInstance3D meshInstance3D = new();//mesh instance for rendering, instantiates the arraymesh
 
 
+    float terrainSurface = 0.5f;
+    int width = 32;
+    int height = 8;
+    float[,,] terrainMap;
 
-        SurfaceTool surfaceTool = new();  //surface tool allows building meshes throughout script
-        Godot.Collections.Array surfaceArray = new(); //surface array is fed to surface tool after being loaded with individual arrays
-
-        List<Vector3> vertices = new();     //these are the arrays modified with mesh data and passed to surfaceArray for rendering
-        //List<Vector2> uvs = new();
-        //List<Vector3> normals = new();
-        List<int> indices = new();
-
-        MeshInstance3D meshInstance3D = new();//mesh instance for rendering, instantiates the arraymesh
 
     int _configIndex = -1;
 
     public override void _Ready()
     {
         AddChild(meshInstance3D);//apply the mesh instance to *this* object
-
         surfaceArray.Resize((int)Mesh.ArrayType.Max); //surface array is of the godot array type, this declares the length to 13 for use in surface tool
+
+        terrainMap = new float[width + 1, height + 1, width + 1];
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////////
+
+
+        PopulateTerrainMap();
+        CreateMeshData();
+        BuildMesh();
 
     }
 
@@ -45,25 +63,104 @@ public partial class Terrain : StaticBody3D
 
     }
 
-    public override void _Input(InputEvent theEvent)
+    void PopulateTerrainMap()
     {
-
-        if (theEvent is InputEventKey keyEvent && keyEvent.Pressed)
+        for(int x = 0; x < width + 1; x++)
         {
-            if (keyEvent.Keycode == Key.Space)
+            for (int y = 0; y < height + 1; y++)
             {
-                GD.Print("space was pressed");
-                _configIndex++;
-                ClearMeshData();
-                MarchCube(Vector3.Zero, _configIndex);
-                BuildMesh();
+                for (int z = 0; z < width + 1; z++)
+                {
 
+                    // get a noise value
+                    float currentHeight = Math.Abs((float)height * fastNoise.GetNoise3D((float)x + 0.01f, (float)y + 0.01f, (float)z + 0.01f));
+
+                    float point = 0;
+                    // based on the noise, update the cube data with the distance to the actual noise value. Only necessary for the smooth look
+                    if (y <= currentHeight - 0.5)
+                    {
+                        point = 1f;
+                    } 
+                    else if(y > currentHeight + 0.5) 
+                    {
+                        point = 0f;
+                    }
+                    else if (y > currentHeight)
+                    {
+                        point = (float)y - currentHeight;
+                    }
+                    else
+                    {
+                        point = currentHeight - (float)y;
+                    }
+
+                    terrainMap[x, y, z] = point;
+
+                }
             }
         }
     }
 
-    void MarchCube(Vector3 position, int configIndex)
+    void CreateMeshData()
     {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int z = 0; z < width; z++)
+                {
+                    float[] cube = new float[8];
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Vector3I corner = new Vector3I(x,y,z) + CornerTable[i];
+                        cube[i] = terrainMap[corner.X,corner.Y,corner.Z];
+                    }
+
+                    MarchCube(new Vector3I(x,y,z), cube);
+                }
+            }
+        }
+    }
+    public override void _Input(InputEvent theEvent)
+    {
+
+        //if (theEvent is InputEventKey keyEvent && keyEvent.Pressed)
+        //{
+        //    if (keyEvent.Keycode == Key.Space)
+        //    {
+        //        GD.Print("space was pressed");
+        //        _configIndex++;
+        //        ClearMeshData();
+        //        MarchCube(Vector3.Zero, _configIndex);
+        //        BuildMesh();
+
+        //    }
+        //}
+    }
+
+    int GetCubeConfiguration(float[] cube)
+    {
+        int configurationIndex = 0;
+
+        //basically, sets the config index number based on the bytewise value of the terrain surface. This is how we reference the right item from the LUT.
+        //so, for each of the 8 bits, it indexes to the appropriate subcategory by inserting the bit. No arithmatic necessary. works because we have 2^8 values in the LUT.
+        for(int i = 0; i < 8; i++)
+        {
+            if (cube[i] > terrainSurface)
+            {
+                configurationIndex |= 1 << i;
+            }
+        }
+
+        return configurationIndex;
+    }
+
+    void MarchCube(Vector3 position, float[] cube)
+    {
+        int configIndex = GetCubeConfiguration(cube);
+
+
+
         if (configIndex == 0 || configIndex == 255) return;
 
         int edgeIndex = 0;
@@ -82,7 +179,7 @@ public partial class Terrain : StaticBody3D
                 Vector3 vertPosition = (vert1 + vert2) / 2f; //this creates position for the new vert within the detection cube
 
                 vertices.Add(vertPosition); //add to lists
-                indices.Add(vertices.Count-1);//add index of the tri. (for triangle strips?)
+                indices.Add(vertices.Count-1);//add index of the tri.
                 edgeIndex++; // to measure next edge
             }
         }
@@ -107,10 +204,17 @@ public partial class Terrain : StaticBody3D
         ArrayMesh arrayMesh = new(); //arraymesh is the product of the surface array after being built by the surfacetool
         if (vertices.Count > 0)
         {
-        arrayMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,surfaceArray);  //feed surface array to surfacetool
+        //surfaceTool.GenerateNormals(false);
+        //surfaceTool.CommitToArrays();
+            arrayMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,surfaceArray);  //feed surface array to surfacetool
+
+            arrayMesh.RegenNormalMaps();
+            surfaceTool.CreateFrom(arrayMesh, 0);
+            surfaceTool.GenerateNormals();
         }
 
         meshInstance3D.Mesh = arrayMesh;
+
 
         //recalc normals
     }
