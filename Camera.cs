@@ -7,6 +7,7 @@ public partial class Camera : Node3D
     const int RAY_LENGTH = 100;
     const float _MOUSE_SENSITIVITY = 0.005f;
     const float _SCROLL_SENSITIVITY = 0.05f;
+    [Export(PropertyHint.Layers2DPhysics)] public uint ColliderLayers {  get; set; }
 
     Camera3D camera; //set in ready
     Node3D cameraPivot;
@@ -51,15 +52,31 @@ public partial class Camera : Node3D
     void RayFromMouse(Vector2 mousepos)
     {
 
-        PhysicsDirectSpaceState3D space = GetWorld3D().DirectSpaceState;
-        Vector3 from = camera.ProjectRayOrigin(mousepos);
-        Vector3 to = camera.ProjectRayNormal(mousepos) * RAY_LENGTH;
-        var query = PhysicsRayQueryParameters3D.Create(from,to);
-        var collision = space.IntersectRay(query);
-        if (!collision.ContainsKey("collider"))return;
+        PhysicsRayQueryParameters3D query = new()
+        {
+            From = camera.ProjectRayOrigin(mousepos),
+            To = camera.ProjectPosition(mousepos, RAY_LENGTH),
+            CollideWithAreas = false,
+            CollideWithBodies = true,
+            CollisionMask = ColliderLayers
+        };
+
+        var collisionData = GetWorld3D().DirectSpaceState.IntersectRay(query);
+
+
+        if (collisionData.Count == 0) return;
         
-        GD.Print(collision["position"],collision["collider"]);
-        var target = collision["collider"];
+        Node collider = collisionData["collider"].Obj as Node;
+        Vector3 position = collisionData["position"].AsVector3();
+
+        GD.Print(collisionData["position"],collisionData["collider"]);
+
+        if (collider?.GetNodeOrNull("Diggable") is Diggable diggableThing)
+        {
+            GD.Print("Recognized collider and diggable");
+            diggableThing.Add(position);
+            //dig cases
+        }
 
 
         
@@ -69,6 +86,7 @@ public partial class Camera : Node3D
     {
         //nodes
         camera = GetNode<Camera3D>("Camera3D");
+        
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -20,26 +20,21 @@ you should now have a rendered procedural mesh
 public partial class Terrain : StaticBody3D
 {
     //configurations
-    [Export]
-    bool smoothTerrain = true;
+    [Export] bool smoothTerrain = true;
+
     [ExportGroup("Material")]
-    [Export]
-    BaseMaterial3D material;
-    [Export]
-    bool useVertexColors = false;
+    [Export] BaseMaterial3D material;
+    [Export] bool useVertexColors = false;
+
     [ExportGroup("Size")]
-    [Export]
-    int width = 32;//# blocks wide (x and z), positive quadrant
-    [Export]
-    int height = 8;//# blocks above origin
+    [Export] int width = 32;//# blocks wide (x and z), positive quadrant
+    [Export] int height = 8;//# blocks above origin
+
     [ExportGroup("Noise")]
-    [Export]
-    FastNoiseLite.NoiseTypeEnum noiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
-    [Export]
-    FastNoiseLite.FractalTypeEnum fractalType = FastNoiseLite.FractalTypeEnum.None;
-    [Export]
-    float fractalgain = 0.5f;
-    [Export]
+    [Export] FastNoiseLite.NoiseTypeEnum noiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
+    [Export] FastNoiseLite.FractalTypeEnum fractalType = FastNoiseLite.FractalTypeEnum.None;
+    [Export] float fractalgain = 0.5f;
+    //[Export]
     //float 
 
     //declarations
@@ -200,8 +195,9 @@ public partial class Terrain : StaticBody3D
     public void PlaceTerrain(Vector3 position)
     {
         Vector3I v3Int = new(Mathf.CeilToInt(position.X), Mathf.CeilToInt(position.Y), Mathf.CeilToInt(position.Z));
-        terrainMap[v3Int.X, v3Int.Y, v3Int.Z] = 0f;
+        terrainMap[v3Int.X, v3Int.Y, v3Int.Z] = 1f;
         CreateMeshData();
+        BuildMesh();
     }
 
     //we already populated the terrainMap, this samples the map at a given point

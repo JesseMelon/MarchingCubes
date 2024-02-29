@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Terrain.cs" id="1_2l1tu"]
 [ext_resource type="Material" uid="uid://bowrvhwu5ni14" path="res://floorMat.tres" id="2_5l1hq"]
 [ext_resource type="Script" path="res://Camera.cs" id="3_0itls"]
+[ext_resource type="Script" path="res://Diggable.cs" id="3_i1nmc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e6q45"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,9 +18,6 @@ sky = SubResource("Sky_ib0a4")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_4v0j3"]
-noise_type = 0
-
 [sub_resource type="BoxMesh" id="BoxMesh_2qylr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d30w3"]
@@ -29,13 +27,15 @@ noise_type = 0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lcwl4")
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Terrain" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0403774, -0.0796031, -0.0308108)
 script = ExtResource("1_2l1tu")
 material = ExtResource("2_5l1hq")
-fractalType = 2
 fractalgain = 5.0
-fastNoise = SubResource("FastNoiseLite_4v0j3")
+
+[node name="Diggable" type="Node" parent="Terrain" node_paths=PackedStringArray("Terrain")]
+script = ExtResource("3_i1nmc")
+Terrain = NodePath("..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
@@ -52,6 +52,7 @@ shape = SubResource("BoxShape3D_d30w3")
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9202, 0.057188, 17.1001)
 script = ExtResource("3_0itls")
+ColliderLayers = 1
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(-0.725422, 0.25071, -0.64102, 0, 0.931304, 0.364243, 0.688304, 0.26423, -0.675589, -15.6181, 11.207, -17.2391)
