@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://c70vil815j0ha"]
+[gd_scene load_steps=11 format=3 uid="uid://c70vil815j0ha"]
 
 [ext_resource type="Script" path="res://Terrain.cs" id="1_2l1tu"]
 [ext_resource type="Material" uid="uid://bowrvhwu5ni14" path="res://floorMat.tres" id="2_5l1hq"]
 [ext_resource type="Script" path="res://Camera.cs" id="3_0itls"]
 [ext_resource type="Script" path="res://Diggable.cs" id="3_i1nmc"]
+[ext_resource type="Script" path="res://Chunk.cs" id="5_341mj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e6q45"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -56,3 +57,6 @@ ColliderLayers = 1
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(-0.725422, 0.25071, -0.64102, 0, 0.931304, 0.364243, 0.688304, 0.26423, -0.675589, -15.6181, 11.207, -17.2391)
+
+[node name="Chunk" type="StaticBody3D" parent="."]
+script = ExtResource("5_341mj")
