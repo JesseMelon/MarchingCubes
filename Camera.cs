@@ -76,17 +76,13 @@ public partial class Camera : Node3D
             GD.Print("Recognized collider and diggable");
             diggableThing.Add(position);
             //dig cases
-        }
-
-
-        
+        }   
     }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         //nodes
         camera = GetNode<Camera3D>("Camera3D");
-        
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
