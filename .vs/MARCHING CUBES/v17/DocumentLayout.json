@@ -3,28 +3,28 @@
   "WorkspaceRootPath": "C:\\Dev\\Projects\\MarchingCubes\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\diggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:diggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\terrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:terrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\diggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:diggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\terrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:terrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,50 +34,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ChunkManager.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\ChunkManager.cs",
               "RelativeDocumentMoniker": "ChunkManager.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\ChunkManager.cs",
               "RelativeToolTip": "ChunkManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAwAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-20T21:09:01.861Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "MarchingCubeData.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\MarchingCubeData.cs",
               "RelativeDocumentMoniker": "MarchingCubeData.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\MarchingCubeData.cs",
               "RelativeToolTip": "MarchingCubeData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAASAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-20T18:36:29.109Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Chunk.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Chunk.cs",
               "RelativeDocumentMoniker": "Chunk.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Chunk.cs",
               "RelativeToolTip": "Chunk.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADQAAAAWAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-17T22:24:11.37Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Diggable.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Diggable.cs",
               "RelativeDocumentMoniker": "Diggable.cs",
@@ -85,8 +85,7 @@
               "RelativeToolTip": "Diggable.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwBMAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-29T22:05:35.617Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-29T22:05:35.617Z"
             },
             {
               "$type": "Document",
@@ -96,14 +95,14 @@
               "RelativeDocumentMoniker": "Camera.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Camera.cs",
               "RelativeToolTip": "Camera.cs",
-              "ViewState": "AQIAAFAAAAAAAAAAAAAgwFQAAAAlAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T23:56:54.389Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Terrain.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Terrain.cs",
               "RelativeDocumentMoniker": "Terrain.cs",
@@ -111,8 +110,7 @@
               "RelativeToolTip": "Terrain.cs",
               "ViewState": "AQIAADgAAAAAAAAAAAAAwDkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-26T23:04:36.307Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-26T23:04:36.307Z"
             }
           ]
         }

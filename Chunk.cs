@@ -33,11 +33,9 @@ public partial class Chunk : StaticBody3D
     Godot.Collections.Array surfaceArray = new(); //surface array is fed to surface tool after being loaded with individual arrays. Must be godot collection type
     readonly List<Vector3> vertices = new();//these are the arrays modified with mesh data and passed to surfaceArray for rendering.
     readonly List<int> indices = new();
-    readonly List<Color> colour = new();
 
-    BaseMaterial3D material;
+    public BaseMaterial3D material;
     
-    bool useVertexColors = false;
     bool isSmooth = true;
     int width;
     int height;
@@ -46,6 +44,12 @@ public partial class Chunk : StaticBody3D
     float[,,] terrainMap;
 
     //constructor
+    public Chunk(Vector3I _position, int _width, int _height, BaseMaterial3D _material)
+    {
+        material = _material;
+        CreateChunk(_position, _width, _height);
+    }
+
     public Chunk(Vector3I _position, int _width, int _height)
     {
         CreateChunk(_position, _width, _height);    
@@ -63,13 +67,7 @@ public partial class Chunk : StaticBody3D
         AddChild(collisionShape);
 
         surfaceArray.Resize((int)Mesh.ArrayType.Max); //surface array is of the godot array type, this declares the length to 13 for use with surface tool
-        terrainMap = new float[width + 1, height + 1, width + 1]; //here incase width and height need to be variables over constant
-                                                                  // fastNoise.NoiseType = noiseType;//set type of noise
-        if (useVertexColors && material != null)
-        {
-            //material.CreatePlaceholder();
-            material.VertexColorUseAsAlbedo = useVertexColors;
-        }
+        terrainMap = new float[width + 1, height + 1, width + 1];
 
         ////////////////////////////////////////////////////////////////////////////////////
         //do
@@ -92,7 +90,7 @@ public partial class Chunk : StaticBody3D
                 for (int z = 0; z < width + 1; z++)
                 {
 
-                    float currentHeight = MarchingCubeData.GetTerrainHeight(x + (int)Position.X, y + (int)Position.Y, z + (int)Position.Z);
+                    float currentHeight = ChunkManager.GetTerrainHeight(x + (int)Position.X, y + (int)Position.Y, z + (int)Position.Z);
 
                     terrainMap[x, y, z] = currentHeight - y;
 
@@ -182,12 +180,6 @@ public partial class Chunk : StaticBody3D
 
                 vertices.Add(vertPosition); //add to lists
                 indices.Add(vertices.Count - 1);//add index of the tri.
-
-                if (useVertexColors && material != null)
-                {
-                    if (position.Y > 1.5) colour.Equals(Colors.DarkOliveGreen);
-                    else colour.Equals(Colors.DarkKhaki);
-                }
                 edgeIndex++; // to measure next edge
             }
         }
@@ -219,7 +211,6 @@ public partial class Chunk : StaticBody3D
         //gather data streams into surface array
         surfaceArray[(int)Mesh.ArrayType.Vertex] = vertices.ToArray();  //finalize temp arrays by passing them into surface array
         surfaceArray[(int)Mesh.ArrayType.Index] = indices.ToArray();
-        if (useVertexColors && material != null) surfaceArray[(int)Mesh.ArrayType.Color] = colour.ToArray();
 
         ArrayMesh arrayMesh = new(); //arraymesh will be the product of the surface array data
 

@@ -6,15 +6,6 @@ namespace Project;
 public static class MarchingCubeData
 {
 
-    [Export] static int chunkHeight = 8;
-
-    //noise generator
-    static FastNoiseLite fastNoise = new();
-    public static float GetTerrainHeight(int x, int y, int z)
-    {
-        return (float)chunkHeight * Math.Clamp(fastNoise.GetNoise3D((float)x, (float)y, (float)z), 0, 2) + 1;
-    }
-
     public static readonly Vector3I[] CornerTable = new Vector3I[8] 
     {
     new (0, 0, 0),
