@@ -1,23 +1,28 @@
 using Godot;
 using System;
 
-public partial class Diggable : Node
+namespace Project
 {
-    [Export] public Terrain Terrain { get; set; }
 
-    public void Add(Vector3 atPos)
+
+    public partial class Diggable : Node
     {
-        if (Terrain == null) return;
+        [Export] public Terrain Terrain { get; set; }
+
+        public void Add(Vector3 atPos)
         {
-            GD.Print("Calling PlaceTerrain");
-            Terrain.PlaceTerrain(atPos);
+            if (Terrain == null) return;
+            {
+                GD.Print("Calling PlaceTerrain");
+                Terrain.PlaceTerrain(atPos);
+            }
         }
-    }
-    public void Remove(Vector3 atPos)
-    {
-        if (Terrain == null) return;
+        public void Remove(Vector3 atPos)
+        {
+            if (Terrain == null) return;
 
-        //Terrain.Remove(atPos);
-    }
+            //Terrain.Remove(atPos);
+        }
 
+    }
 }
