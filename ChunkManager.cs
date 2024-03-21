@@ -2,6 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+//TODO send bounding shape along with values to update terrain map then have necessary chunks regenerate
+    //send bounding box & use to get relevant positions in terrain, then get distance (radius parameter) from origin to filter changes to a round area. 
+//TODO incorporate textures
+//TODO incorporate material brushes into volume brushes
 
 namespace Project;
 public partial class ChunkManager : Node
@@ -11,8 +15,8 @@ public partial class ChunkManager : Node
     [Export] int chunksWide = 10;
     [Export] int chunksLong = 10;
     [Export] int chunkWidth = 16;
-    [Export] int chunkHeight = 8;
-    [Export] static readonly float baseSurfaceHeight = 5f;
+    [Export] int chunkHeight = 16;
+    [Export] static readonly float baseSurfaceHeight = 10f;
     [Export] static readonly float surfaceHeightRange = 5f;
 
     static readonly FastNoiseLite fastNoise = new();

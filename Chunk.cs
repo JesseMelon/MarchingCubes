@@ -14,8 +14,6 @@ use the arraymesh to set the mesh property of the meshInstance3d.
 you should now have a rendered procedural mesh
 */
 
-//TODO add to node group called "terrain" or another called "destructable"
-
 namespace Project;
 
 //Generate voxel terrain with noise
@@ -88,9 +86,10 @@ public partial class Chunk : StaticBody3D
                 for (int z = 0; z < width + 1; z++)
                 {
 
-                    float currentHeight = ChunkManager.GetTerrainHeight(x + (int)Position.X, y + (int)Position.Y, z + (int)Position.Z);
+                    float terrainHeight = ChunkManager.GetTerrainHeight(x + (int)Position.X, y + (int)Position.Y, z + (int)Position.Z);
 
-                    terrainMap[x, y, z] = currentHeight - y;
+                    terrainMap[x, y, z] = terrainHeight - y;
+                    //GD.Print(x + "-", y + "-", z + "-", terrainMap[x, y, z]);
 
                 }
             }

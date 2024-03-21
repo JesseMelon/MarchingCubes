@@ -7,24 +7,20 @@
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\signals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:signals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Dev\\Projects\\MarchingCubes\\Signals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Signals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\diggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:diggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,13 +34,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Signals.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Signals.cs",
               "RelativeDocumentMoniker": "Signals.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Signals.cs",
               "RelativeToolTip": "Signals.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAASAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-21T01:54:44.876Z",
               "EditorCaption": ""
@@ -57,14 +53,14 @@
               "RelativeDocumentMoniker": "ChunkManager.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\ChunkManager.cs",
               "RelativeToolTip": "ChunkManager.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAA0AAAAgAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-20T21:09:01.861Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "MarchingCubeData.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\MarchingCubeData.cs",
               "RelativeDocumentMoniker": "MarchingCubeData.cs",
@@ -77,28 +73,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Chunk.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Chunk.cs",
               "RelativeDocumentMoniker": "Chunk.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Chunk.cs",
               "RelativeToolTip": "Chunk.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAAQwMUAAAAfAAAA",
+              "ViewState": "AQIAANMAAAAAAAAAAAAiwA4AAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-17T22:24:11.37Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Diggable.cs",
-              "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Diggable.cs",
-              "RelativeDocumentMoniker": "Diggable.cs",
-              "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Diggable.cs",
-              "RelativeToolTip": "Diggable.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-29T22:05:35.617Z",
               "EditorCaption": ""
             },
             {
@@ -109,7 +92,7 @@
               "RelativeDocumentMoniker": "Camera.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Camera.cs",
               "RelativeToolTip": "Camera.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAYwGQAAAARAAAA",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAYwGMAAABjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T23:56:54.389Z",
               "EditorCaption": ""
