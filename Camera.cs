@@ -6,14 +6,18 @@ namespace Project
 {
     public partial class Camera : Node3D
     {
+        [Export(PropertyHint.Layers2DPhysics)] public uint ColliderLayers { get; set; }
+
         const int RAY_LENGTH = 100;
         const float MOUSE_SENSITIVITY = 0.005f;
         const float SCROLL_SENSITIVITY = 0.5f;
         const float PAN_SENSITIVITY = 0.5f;
-        [Export(PropertyHint.Layers2DPhysics)] public uint ColliderLayers { get; set; }
+
+        bool isAddingTerrain;
 
         Camera3D camera; //set in ready
         Node3D cameraPivot;
+        Signals signals;
 
         public override void _Input(InputEvent theEvent)
         {
@@ -52,9 +56,12 @@ namespace Project
                 switch (mouseButtonEvent.ButtonIndex)
                 {
                     case MouseButton.Left:
+                        isAddingTerrain = true;
                         RayFromMouse(GetViewport().GetMousePosition());
                         break;
                     case MouseButton.Right:
+                        isAddingTerrain = false;
+                        RayFromMouse(GetViewport().GetMousePosition());
                         break;
                     case MouseButton.WheelUp:
                         Scale -= new Vector3(SCROLL_SENSITIVITY, SCROLL_SENSITIVITY, SCROLL_SENSITIVITY);
@@ -66,7 +73,6 @@ namespace Project
             }
 
         }
-
         void RayFromMouse(Vector2 mousepos)
         {
 
@@ -87,25 +93,20 @@ namespace Project
             Node collider = collisionData["collider"].Obj as Node;
             Vector3 position = collisionData["position"].AsVector3();
 
-            GD.Print(collisionData["position"], collisionData["collider"]);
-
-            if (collider?.GetNodeOrNull("Diggable") is Diggable diggableThing)
+            foreach (string group in collider.GetGroups())
             {
-                GD.Print("Recognized collider and diggable");
-                diggableThing.Add(position);
-                //dig cases
+                if (group == "Terrain")
+                {
+                    signals.EmitSignal(nameof(signals.TerrainModified), position, isAddingTerrain);
+                }
             }
         }
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
             //nodes
+            signals = GetNode<Signals>("/root/World");
             camera = GetNode<Camera3D>("Camera3D");
-        }
-
-        // Called every frame. 'delta' is the elapsed time since the previous frame.
-        public override void _PhysicsProcess(double delta)
-        {
         }
     }
 }

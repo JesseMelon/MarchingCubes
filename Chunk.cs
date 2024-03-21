@@ -39,7 +39,7 @@ public partial class Chunk : StaticBody3D
     bool isSmooth = true;
     int width;
     int height;
-
+    Vector3I chunkPosition;
     const float terrainSurface = 0.5f; 
     float[,,] terrainMap;
 
@@ -61,7 +61,8 @@ public partial class Chunk : StaticBody3D
         //init
         width = _width;
         height = _height;
-        this.Position = _position;
+        chunkPosition = _position;
+        Position = _position;
         AddToGroup("Terrain", true);
         AddChild(meshInstance3D);//apply the mesh instance and collider as children (otherwise theyd remain theoretical)
         AddChild(collisionShape);
@@ -75,9 +76,6 @@ public partial class Chunk : StaticBody3D
         PopulateTerrainMap();
         CreateMeshData();
         BuildMesh();
-        MeshDataTool meshDataTool = new();
-        meshDataTool.CreateFromSurface(meshInstance3D.Mesh as ArrayMesh, 0);
-        GD.Print(meshDataTool.GetVertexCount());
     }
 
     //Sample noise and add it to the terrainMap
@@ -188,7 +186,18 @@ public partial class Chunk : StaticBody3D
     public void PlaceTerrain(Vector3 position)
     {
         Vector3I v3Int = new(Mathf.CeilToInt(position.X), Mathf.CeilToInt(position.Y), Mathf.CeilToInt(position.Z));
+        v3Int -= chunkPosition;
         terrainMap[v3Int.X, v3Int.Y, v3Int.Z] = 1f;
+        ClearMeshData();
+        CreateMeshData();
+        BuildMesh();
+    }
+    public void RemoveTerrain(Vector3 position)
+    {
+        Vector3I v3Int = new(Mathf.FloorToInt(position.X), Mathf.FloorToInt(position.Y), Mathf.FloorToInt(position.Z));
+        v3Int -= chunkPosition;
+        terrainMap[v3Int.X, v3Int.Y, v3Int.Z] = -50f;
+        ClearMeshData() ;
         CreateMeshData();
         BuildMesh();
     }
