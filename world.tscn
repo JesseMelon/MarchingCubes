@@ -43,7 +43,7 @@ mesh = SubResource("BoxMesh_2qylr")
 shape = SubResource("BoxShape3D_d30w3")
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(-0.494367, 0, -0.869253, 0, 1, 0, 0.869253, 0, -0.494367, 0, 0, 0)
+transform = Transform3D(-0.494367, 0, -0.869253, 0, 1, 0, 0.869253, 0, -0.494367, 35.5105, 23.2201, 48.1163)
 script = ExtResource("3_0itls")
 ColliderLayers = 1
 
