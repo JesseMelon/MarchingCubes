@@ -1,5 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c70vil815j0ha"]
+[gd_scene load_steps=11 format=3 uid="uid://c70vil815j0ha"]
 
+[ext_resource type="Script" path="res://Signals.cs" id="1_y0er6"]
+[ext_resource type="Material" uid="uid://bowrvhwu5ni14" path="res://floorMat.tres" id="2_5l1hq"]
 [ext_resource type="Script" path="res://Camera.cs" id="3_0itls"]
 [ext_resource type="Script" path="res://ChunkManager.cs" id="5_hb401"]
 
@@ -20,7 +22,10 @@ glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d30w3"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_uoqrf"]
+
 [node name="World" type="Node3D"]
+script = ExtResource("1_y0er6")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lcwl4")
@@ -29,7 +34,7 @@ environment = SubResource("Environment_lcwl4")
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5421, 14.1682, 8.092)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.4611, 14.1682, 75.0761)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
 mesh = SubResource("BoxMesh_2qylr")
@@ -38,12 +43,16 @@ mesh = SubResource("BoxMesh_2qylr")
 shape = SubResource("BoxShape3D_d30w3")
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9202, 0.057188, 17.1001)
+transform = Transform3D(-0.494367, 0, -0.869253, 0, 1, 0, 0.869253, 0, -0.494367, 35.5105, 23.2201, 48.1163)
 script = ExtResource("3_0itls")
 ColliderLayers = 1
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(-0.725422, 0.25071, -0.64102, 0, 0.931304, 0.364243, 0.688304, 0.26423, -0.675589, -15.6181, 11.207, -17.2391)
+transform = Transform3D(1, 0, 0, 0, 0.936201, 0.351466, 0, -0.351466, 0.936201, 0, 10, 20)
 
 [node name="ChunkManager" type="Node" parent="."]
 script = ExtResource("5_hb401")
+material = ExtResource("2_5l1hq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_uoqrf")
