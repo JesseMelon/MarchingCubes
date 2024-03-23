@@ -24,7 +24,7 @@ public partial class Chunk : StaticBody3D
     //terrain collider
     CollisionShape3D collisionShape = new();
     //surfacetool(for generating normals)
-    SurfaceTool surfaceTool = new();
+    SurfaceTool surfaceTool = new(); //TODO remove and calc with overscan for no seams
 
 
     //mesh gen data members
@@ -37,9 +37,8 @@ public partial class Chunk : StaticBody3D
     bool isSmooth = true;
     int width;
     int height;
-    Vector3I chunkPosition;
-    const float terrainSurface = 0.5f; 
-    float[,,] terrainMap;
+    const float volumeSubmersionThreshold = 0.5f; 
+    float[,,] volumeMap;
 
     //constructor
     public Chunk(Vector3I _position, int _width, int _height, BaseMaterial3D _material)
@@ -59,14 +58,13 @@ public partial class Chunk : StaticBody3D
         //init
         width = _width;
         height = _height;
-        chunkPosition = _position;
         Position = _position;
         AddToGroup("Terrain", true);
         AddChild(meshInstance3D);//apply the mesh instance and collider as children (otherwise theyd remain theoretical)
         AddChild(collisionShape);
 
         surfaceArray.Resize((int)Mesh.ArrayType.Max); //surface array is of the godot array type, this declares the length to 13 for use with surface tool
-        terrainMap = new float[width + 1, height + 1, width + 1];
+        volumeMap = new float[width + 1, height + 1, width + 1];
 
         ////////////////////////////////////////////////////////////////////////////////////
         //do
@@ -88,7 +86,7 @@ public partial class Chunk : StaticBody3D
 
                     float terrainHeight = ChunkManager.GetTerrainHeight(x + (int)Position.X, y + (int)Position.Y, z + (int)Position.Z);
 
-                    terrainMap[x, y, z] = terrainHeight - y;
+                    volumeMap[x, y, z] = terrainHeight - y;
                     //GD.Print(x + "-", y + "-", z + "-", terrainMap[x, y, z]);
 
                 }
@@ -96,7 +94,7 @@ public partial class Chunk : StaticBody3D
         }
     }
 
-    //Just call marchcube
+    //Just calls marchcube
     void CreateMeshData()
     {
         for (int x = 0; x < width; x++)
@@ -116,11 +114,11 @@ public partial class Chunk : StaticBody3D
     {
         int configurationIndex = 0;
 
-        //basically, sets the config index number based on the bytewise value of the terrain surface. This is how we reference the right item from the LUT.
-        //so, for each of the 8 bits, it indexes to the appropriate subcategory by inserting the bit. No arithmatic necessary. works because we have 2^8 values in the LUT.
+        //sets the config index number based on the bytewise value of the terrain surface. This is how we reference the right item from the LUT.
+        //so, for each of the 8 bits, it indexes to the appropriate subcategory by inserting the bit. No further arithmatic necessary. works because we have 2^8 values in the LUT.
         for (int i = 0; i < 8; i++)
         {
-            if (cube[i] > terrainSurface)
+            if (cube[i] > volumeSubmersionThreshold)
             {
                 configurationIndex |= 1 << i;
             }
@@ -130,52 +128,64 @@ public partial class Chunk : StaticBody3D
     }
 
     //makes a cube for position. Cube detects collisions with noise values to configure the shape. Generates geometry data if necessary
-    void MarchCube(Vector3I position)
+    void MarchCube(Vector3I cubeMarchingPosition)
     {
-        //create an array of floats for each corner of a cube and get a value for each point based on terrain map
-        float[] cube = new float[8];
+        //create an array of floats for each corner of a cube and get a value for each point based on volume map 
+        float[] marchingCube = new float[8];
         for (int i = 0; i < 8; i++)
         {
-            cube[i] = SampleTerrain(position + MarchingCubeData.CornerTable[i]);
+            //load cube with volume data
+            marchingCube[i] = SampleVolumeMap(cubeMarchingPosition + MarchingCubeData.CornerTable[i]);
         }
 
-        int configIndex = GetCubeConfiguration(cube);
+        //determine which configuration to build based on volume submersion
+        int cubeConfigIndex = GetCubeConfiguration(marchingCube);
 
-        if (configIndex == 0 || configIndex == 255) return;
+        //don't bother calculating for air or invisible ground configurations (no mesh attached)
+        if (cubeConfigIndex == 0 || cubeConfigIndex == 255) return; 
 
         int edgeIndex = 0;
 
-        for (int i = 0; i < 5; i++)//for each triangle
+        //for each triangle
+        for (int i = 0; i < 5; i++)
         {
-            for (int j = 0; j < 3; j++)//for each point in triangle
+            //for each point in triangle
+            for (int j = 0; j < 3; j++)
             {
-                int index = MarchingCubeData.TriangleTable[configIndex, edgeIndex];
+                int index = MarchingCubeData.TriangleTable[cubeConfigIndex, edgeIndex];
 
-                if (index == -1) return; //done tri
+                if (index == -1) return; //for cube configurations with less than 5 tris
 
-                Vector3 vert1 = position + MarchingCubeData.CornerTable[MarchingCubeData.EdgeIndices[index, 0]]; //check for terrain between these points
-                Vector3 vert2 = position + MarchingCubeData.CornerTable[MarchingCubeData.EdgeIndices[index, 1]];
-                Vector3 vertPosition;
+                //will check for terrain between these points
+                Vector3 vert1 = cubeMarchingPosition + MarchingCubeData.CornerTable[MarchingCubeData.EdgeIndices[index, 0]]; 
+                Vector3 vert2 = cubeMarchingPosition + MarchingCubeData.CornerTable[MarchingCubeData.EdgeIndices[index, 1]];
+                Vector3 newVert;
+
                 if (isSmooth)
                 {
-                    float vert1Sample = cube[MarchingCubeData.EdgeIndices[index, 0]];
-                    float vert2Sample = cube[MarchingCubeData.EdgeIndices[index, 1]];
+                    //remember our cube is loaded with raw volume data. This contains precise position data for contouring
+                    float vert1Sample = marchingCube[MarchingCubeData.EdgeIndices[index, 0]];
+                    float vert2Sample = marchingCube[MarchingCubeData.EdgeIndices[index, 1]];
 
-                    //calculate the difference between verts on terrain
+                    //calculate the difference in volume threshold (AKA lerp bias) for both verts.
+                    //Any sample above 0.5f is considered submerged and verts are created, however variations determine where the actual vert lands, hence why it isnt a bool
                     float diff = vert2Sample - vert1Sample;
-                    if (diff == 0) //this means the terrain does not intersect
-                        diff = terrainSurface;
+
+                    if (diff == 0) //this means the terrain does not intersect & should never happen. Is only here for divide by 0 safety.
+                        diff = volumeSubmersionThreshold;
                     else
-                        diff = (terrainSurface - vert1Sample) / diff;
-                    //if intersecting, get precise point along edge
-                    vertPosition = vert1 + ((vert2 - vert1) * diff);
+                        diff = (volumeSubmersionThreshold - vert1Sample) / diff;
+
+                    //get precise point along edge
+                    newVert = vert1 + ((vert2 - vert1) * diff);
                 }
                 else
                 {
-                    vertPosition = (vert1 + vert2) / 2f; //this creates position for the new vert within the detection cube
+                    //this creates position for the new vert within the detection cube at middle. Note: if you were to invest in unsmoothed, create a bitmask for cube instead of floats. 
+                    newVert = (vert1 + vert2) / 2f; 
                 }
 
-                vertices.Add(vertPosition); //add to lists
+                vertices.Add(newVert); //add to lists
                 indices.Add(vertices.Count - 1);//add index of the tri.
                 edgeIndex++; // to measure next edge
             }
@@ -185,34 +195,31 @@ public partial class Chunk : StaticBody3D
     public void PlaceTerrain(Vector3 position)
     {
         Vector3I v3Int = new(Mathf.CeilToInt(position.X), Mathf.CeilToInt(position.Y), Mathf.CeilToInt(position.Z));
-        v3Int -= chunkPosition;
-        terrainMap[v3Int.X, v3Int.Y, v3Int.Z] = 1f;
+        v3Int -= (Vector3I)Position;
+        volumeMap[v3Int.X, v3Int.Y, v3Int.Z] = 1f; //this is ugly, should really take advantage of the gradual nature more
         ClearMeshData();
         CreateMeshData();
         BuildMesh();
     }
-    public void RemoveTerrain(Vector3 position)
+    public void RemoveTerrain(Vector3 position) //TODO consolidate into PlaceTerrain
     {
         Vector3I v3Int = new(Mathf.FloorToInt(position.X), Mathf.FloorToInt(position.Y), Mathf.FloorToInt(position.Z));
-        v3Int -= chunkPosition;
-        terrainMap[v3Int.X, v3Int.Y, v3Int.Z] = -50f;
+        v3Int -= (Vector3I)Position;
+        volumeMap[v3Int.X, v3Int.Y, v3Int.Z] = 0f;
         ClearMeshData() ;
         CreateMeshData();
         BuildMesh();
     }
 
     //we already populated the terrainMap, this samples the map at a given point
-    float SampleTerrain(Vector3I point)
+    float SampleVolumeMap(Vector3I point)
     {
-        return terrainMap[point.X, point.Y, point.Z];
+        return volumeMap[point.X, point.Y, point.Z];
     }
-
-    //self explanatory
     void ClearMeshData()
     {
         vertices.Clear(); indices.Clear();//flush temp arrays
     }
-
     //finalizes mesh data
     void BuildMesh()
     {
