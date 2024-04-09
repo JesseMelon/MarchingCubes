@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 
-namespace Project
+namespace Terrain
 {
     public partial class Camera : Node3D
     {
@@ -10,10 +10,11 @@ namespace Project
 
         const int RAY_LENGTH = 100;
         const float MOUSE_SENSITIVITY = 0.005f;
-        const float SCROLL_SENSITIVITY = 0.5f;
-        const float PAN_SENSITIVITY = 0.5f;
+        const float SCROLL_SENSITIVITY = 0.25f;
+        const float PAN_SENSITIVITY = 0.25f;
 
-        bool isAddingTerrain;
+        float radius = 2f;
+        sbyte isDigging;
 
         Camera3D camera; //set in ready
         Node3D cameraPivot;
@@ -56,15 +57,15 @@ namespace Project
                 switch (mouseButtonEvent.ButtonIndex)
                 {
                     case MouseButton.Left:
-                        isAddingTerrain = true;
+                        isDigging = 1;
                         RayFromMouse(GetViewport().GetMousePosition());
                         break;
                     case MouseButton.Right:
-                        isAddingTerrain = false;
+                        isDigging = -1;
                         RayFromMouse(GetViewport().GetMousePosition());
                         break;
                     case MouseButton.WheelUp:
-                        Scale -= new Vector3(SCROLL_SENSITIVITY, SCROLL_SENSITIVITY, SCROLL_SENSITIVITY);
+                        if (Scale.X > 0.5) Scale -= new Vector3(SCROLL_SENSITIVITY, SCROLL_SENSITIVITY, SCROLL_SENSITIVITY);
                         break;
                     case MouseButton.WheelDown:
                         Scale += new Vector3(SCROLL_SENSITIVITY, SCROLL_SENSITIVITY, SCROLL_SENSITIVITY);
@@ -97,7 +98,7 @@ namespace Project
             {
                 if (group == "Terrain")
                 {
-                    signals.EmitSignal(nameof(signals.TerrainModified), position, isAddingTerrain);
+                    signals.EmitSignal(nameof(signals.TerrainModified), position, radius * isDigging, 1f);
                 }
             }
         }

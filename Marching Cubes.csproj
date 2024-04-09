@@ -6,4 +6,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>MarchingCubes</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GodotVectorOperations\GodotVectorOperations.csproj" />
+  </ItemGroup>
 </Project>

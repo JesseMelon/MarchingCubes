@@ -2,20 +2,20 @@ using Godot;
 using System;
 
 
-namespace Project;
+namespace Terrain;
 public static class MarchingCubeData
 {
 
     public static readonly Vector3I[] CornerTable = new Vector3I[8] 
     {
-    new (0, 0, 0),
-    new (1, 0, 0),
-    new (1, 1, 0),
-    new (0, 1, 0),
-    new (0, 0, 1),
-    new (1, 0, 1),
-    new (1, 1, 1),
-    new (0, 1, 1)
+    new (0, 0, 0),//0             7--------6
+    new (1, 0, 0),//1            /|       /|
+    new (1, 1, 0),//2           3-+------2 |     y
+    new (0, 1, 0),//3           | |      | |     |
+    new (0, 0, 1),//4           | 4------|-5     0---x
+    new (1, 0, 1),//5           |/       |/     /
+    new (1, 1, 1),//6           0--------1     z
+    new (0, 1, 1) //7                         
     };
 
     public static readonly int[,] EdgeIndices = new int[12, 2] 

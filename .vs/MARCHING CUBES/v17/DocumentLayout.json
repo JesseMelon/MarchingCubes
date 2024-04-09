@@ -3,6 +3,17 @@
   "WorkspaceRootPath": "C:\\Dev\\Projects\\MarchingCubes\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3B0267-44FB-4C6A-A37E-554128672EE6}|..\\GodotVectorOperations\\GodotVectorOperations.csproj|c:\\dev\\projects\\godotvectoroperations\\boundsi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,16 +22,11 @@
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:marchingcubedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|c:\\dev\\projects\\marchingcubes\\signals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C8DB344-6A0C-49AC-A26D-07EF4775F942}|Marching Cubes.csproj|solutionrelative:signals.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B3B0267-44FB-4C6A-A37E-554128672EE6}|..\\GodotVectorOperations\\GodotVectorOperations.csproj|c:\\dev\\projects\\godotvectoroperations\\bounds.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,19 +36,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
+              "Title": "Bounds.cs",
+              "DocumentMoniker": "C:\\Dev\\Projects\\GodotVectorOperations\\Bounds.cs",
+              "RelativeDocumentMoniker": "..\\GodotVectorOperations\\Bounds.cs",
+              "ToolTip": "C:\\Dev\\Projects\\GodotVectorOperations\\Bounds.cs",
+              "RelativeToolTip": "..\\GodotVectorOperations\\Bounds.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-09T20:29:53.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BoundsI.cs",
+              "DocumentMoniker": "C:\\Dev\\Projects\\GodotVectorOperations\\BoundsI.cs",
+              "RelativeDocumentMoniker": "..\\GodotVectorOperations\\BoundsI.cs",
+              "ToolTip": "C:\\Dev\\Projects\\GodotVectorOperations\\BoundsI.cs",
+              "RelativeToolTip": "..\\GodotVectorOperations\\BoundsI.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAowFoAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-09T20:29:51.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Signals.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Signals.cs",
               "RelativeDocumentMoniker": "Signals.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Signals.cs",
               "RelativeToolTip": "Signals.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABpAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-21T01:54:44.876Z"
+              "WhenOpened": "2024-03-21T01:54:44.876Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -52,47 +85,49 @@
               "RelativeDocumentMoniker": "ChunkManager.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\ChunkManager.cs",
               "RelativeToolTip": "ChunkManager.cs",
-              "ViewState": "AQIAACUAAAAAAAAAAAAQwAIAAAAhAAAA",
+              "ViewState": "AQIAAGEAAAAAAAAAAAAwwCAAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-20T21:09:01.861Z"
+              "WhenOpened": "2024-03-20T21:09:01.861Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "MarchingCubeData.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\MarchingCubeData.cs",
               "RelativeDocumentMoniker": "MarchingCubeData.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\MarchingCubeData.cs",
               "RelativeToolTip": "MarchingCubeData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-20T18:36:29.109Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Chunk.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Chunk.cs",
               "RelativeDocumentMoniker": "Chunk.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Chunk.cs",
               "RelativeToolTip": "Chunk.cs",
-              "ViewState": "AQIAAMIAAAAAAAAAAAAkwN0AAAAFAAAA",
+              "ViewState": "AQIAAKkAAAAAAAAAAAAwwE8AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-17T22:24:11.37Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Camera.cs",
               "DocumentMoniker": "C:\\Dev\\Projects\\MarchingCubes\\Camera.cs",
               "RelativeDocumentMoniker": "Camera.cs",
               "ToolTip": "C:\\Dev\\Projects\\MarchingCubes\\Camera.cs",
               "RelativeToolTip": "Camera.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAAAwBAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T23:56:54.389Z"
+              "WhenOpened": "2024-02-28T23:56:54.389Z",
+              "EditorCaption": ""
             }
           ]
         }

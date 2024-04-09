@@ -1,11 +1,9 @@
 using Godot;
-using System;
 
-
-namespace Project;
+namespace Terrain;
 public partial class Signals : Node
 {
 
-    [Signal] public delegate void TerrainModifiedEventHandler(Vector3 position, bool isAdding);
+    [Signal] public delegate void TerrainModifiedEventHandler(Vector3 position, float radius, float speed);
 
 }

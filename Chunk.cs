@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 /*Godot mesh gen gameplan.
@@ -14,9 +13,11 @@ use the arraymesh to set the mesh property of the meshInstance3d.
 you should now have a rendered procedural mesh
 */
 
-namespace Project;
+namespace Terrain;
 
-//Generate voxel terrain with noise
+/// <summary>
+/// One mesh deformable land segment
+/// </summary>
 public partial class Chunk : StaticBody3D
 {
     //terrainInstance
@@ -26,7 +27,7 @@ public partial class Chunk : StaticBody3D
     //surfacetool(for generating normals)
     SurfaceTool surfaceTool = new(); //TODO remove and calc with overscan for no seams
 
-
+    //TODO use something faster than lists for dynamic and rapid collection. singly linked list? they are made once and used once. practically no overhead needed
     //mesh gen data members
     Godot.Collections.Array surfaceArray = new(); //surface array is fed to surface tool after being loaded with individual arrays. Must be godot collection type
     readonly List<Vector3> vertices = new();//these are the arrays modified with mesh data and passed to surfaceArray for rendering.
@@ -37,45 +38,50 @@ public partial class Chunk : StaticBody3D
     bool isSmooth = true;
     int width;
     int height;
-    const float volumeSubmersionThreshold = 0.5f; 
+    const float lerpBias = 0.5f; 
     float[,,] volumeMap;
 
-    //constructor
+    /// <summary>
+    /// One-mesh deformable land segment
+    /// </summary>
+    /// <param name="_position">World position for lower left corner of chunk</param>
+    /// <param name="_width">Width of sqyare mesh</param>
+    /// <param name="_height">Total height between ground and sky. Defines max placeable height</param>
+    /// <param name="_material">Material of Mesh for chunk</param>
     public Chunk(Vector3I _position, int _width, int _height, BaseMaterial3D _material)
     {
         material = _material;
         CreateChunk(_position, _width, _height);
     }
-
-    public Chunk(Vector3I _position, int _width, int _height)
-    {
-        CreateChunk(_position, _width, _height);    
-    }
-    public Chunk() { }
-
+    //internals of constructor
     private void CreateChunk(Vector3I _position, int _width, int _height)
     {
         //init
         width = _width;
         height = _height;
         Position = _position;
+        //group will determine the type of signal passed to Chunk Manager
         AddToGroup("Terrain", true);
-        AddChild(meshInstance3D);//apply the mesh instance and collider as children (otherwise theyd remain theoretical)
+        //apply the mesh instance and collider as children (otherwise theyd remain theoretical)
+        AddChild(meshInstance3D);
         AddChild(collisionShape);
 
         surfaceArray.Resize((int)Mesh.ArrayType.Max); //surface array is of the godot array type, this declares the length to 13 for use with surface tool
         volumeMap = new float[width + 1, height + 1, width + 1];
 
-        ////////////////////////////////////////////////////////////////////////////////////
         //do
-
         PopulateTerrainMap();
         CreateMeshData();
         BuildMesh();
     }
 
+    public void EditTerrain()
+    {
+        GD.Print("Editing Chunk!");
+    }
+
     //Sample noise and add it to the terrainMap
-    void PopulateTerrainMap()
+    private void PopulateTerrainMap()
     {
         for (int x = 0; x < width + 1; x++)
         {
@@ -95,7 +101,7 @@ public partial class Chunk : StaticBody3D
     }
 
     //Just calls marchcube
-    void CreateMeshData()
+    private void CreateMeshData()
     {
         for (int x = 0; x < width; x++)
         {
@@ -110,7 +116,7 @@ public partial class Chunk : StaticBody3D
     }
 
     //uses bitshift to index the appropriate configuration in the Triangles LUT based on the cube's proximity to the noise values (whish is gathered in MarchCube)
-    static int GetCubeConfiguration(float[] cube)
+    private static int GetCubeConfiguration(float[] cube)
     {
         int configurationIndex = 0;
 
@@ -118,7 +124,7 @@ public partial class Chunk : StaticBody3D
         //so, for each of the 8 bits, it indexes to the appropriate subcategory by inserting the bit. No further arithmatic necessary. works because we have 2^8 values in the LUT.
         for (int i = 0; i < 8; i++)
         {
-            if (cube[i] > volumeSubmersionThreshold)
+            if (cube[i] > lerpBias)
             {
                 configurationIndex |= 1 << i;
             }
@@ -128,32 +134,32 @@ public partial class Chunk : StaticBody3D
     }
 
     //makes a cube for position. Cube detects collisions with noise values to configure the shape. Generates geometry data if necessary
-    void MarchCube(Vector3I cubeMarchingPosition)
+    private void MarchCube(Vector3I cubeMarchingPosition)
     {
         //create an array of floats for each corner of a cube and get a value for each point based on volume map 
         float[] marchingCube = new float[8];
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++) //for each vert of cube
         {
-            //load cube with volume data
+            //load array with volume data
             marchingCube[i] = SampleVolumeMap(cubeMarchingPosition + MarchingCubeData.CornerTable[i]);
         }
 
         //determine which configuration to build based on volume submersion
         int cubeConfigIndex = GetCubeConfiguration(marchingCube);
 
-        //don't bother calculating for air or invisible ground configurations (no mesh attached)
+        //don't bother generating for air or invisible ground configurations (no mesh attached)
         if (cubeConfigIndex == 0 || cubeConfigIndex == 255) return; 
 
         int edgeIndex = 0;
 
-        //for each triangle
+        //for each triangle. 5 happens to be the maximum for some configurations. Others will break early.
         for (int i = 0; i < 5; i++)
         {
             //for each point in triangle
             for (int j = 0; j < 3; j++)
             {
+                //which tri to read from LUTs
                 int index = MarchingCubeData.TriangleTable[cubeConfigIndex, edgeIndex];
-
                 if (index == -1) return; //for cube configurations with less than 5 tris
 
                 //will check for terrain between these points
@@ -172,11 +178,11 @@ public partial class Chunk : StaticBody3D
                     float diff = vert2Sample - vert1Sample;
 
                     if (diff == 0) //this means the terrain does not intersect & should never happen. Is only here for divide by 0 safety.
-                        diff = volumeSubmersionThreshold;
+                        diff = lerpBias;
                     else
-                        diff = (volumeSubmersionThreshold - vert1Sample) / diff;
+                        diff = (lerpBias - vert1Sample) / diff;
 
-                    //get precise point along edge
+                    //get precise point along edge with specific lerp bias (not locked to value of lerpBias anymore)
                     newVert = vert1 + ((vert2 - vert1) * diff);
                 }
                 else
@@ -212,30 +218,36 @@ public partial class Chunk : StaticBody3D
     }
 
     //we already populated the terrainMap, this samples the map at a given point
-    float SampleVolumeMap(Vector3I point)
+    private float SampleVolumeMap(Vector3I point)
     {
         return volumeMap[point.X, point.Y, point.Z];
     }
-    void ClearMeshData()
+    private void ClearMeshData()
     {
         vertices.Clear(); indices.Clear();//flush temp arrays
     }
     //finalizes mesh data
-    void BuildMesh()
+    private void BuildMesh()
     {
-        //gather data streams into surface array
-        surfaceArray[(int)Mesh.ArrayType.Vertex] = vertices.ToArray();  //finalize temp arrays by passing them into surface array
+        //gather data into surface array
+        surfaceArray[(int)Mesh.ArrayType.Vertex] = vertices.ToArray();
         surfaceArray[(int)Mesh.ArrayType.Index] = indices.ToArray();
 
-        ArrayMesh arrayMesh = new(); //arraymesh will be the product of the surface array data
+        ArrayMesh arrayMesh = new(); //arraymesh will be the Mesh product of the surface array data
 
 
         arrayMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, surfaceArray);  //feed surface array to arrayMesh (sometimes surface array is labelled "data")
         arrayMesh.SurfaceSetMaterial(0, material);
-        surfaceTool.CreateFrom(arrayMesh, 0); //feed arraymesh to surfaceTool (strictly for generating normals)
+        surfaceTool.CreateFrom(arrayMesh, 0); //feed arraymesh to surfaceTool (strictly for generating normals. TODO do normals manually and get rid of seams
         surfaceTool.GenerateNormals();
-        arrayMesh = surfaceTool.Commit(); //now overwrite the array but with normals this time. 
-        collisionShape.Shape = arrayMesh.CreateTrimeshShape();
+        arrayMesh = surfaceTool.Commit();
+
+        collisionShape.Shape = arrayMesh.CreateTrimeshShape();//pass body to collision shape
         meshInstance3D.Mesh = arrayMesh; //update the instance
+    }
+
+    private void CalculateNormals()
+    {
+
     }
 }
